@@ -9,6 +9,8 @@ def main():
     query_date = sys.argv[1]
 
     config = Config().get_config()
+    save_folder = config['path']['save_folder'] + query_date
+
     http_req = HttpReq(config['end_point']['web_page'])
 
     video_uris = VideoUris(
@@ -16,9 +18,10 @@ def main():
         query_date).fetch()
 
     if video_uris:
-        if not os.path.exists(query_date):
-            os.mkdir(query_date)
-        os.chdir(query_date)
+        if not os.path.exists(save_folder):
+            os.mkdir(save_folder)
+            os.chdir(save_folder)
+        os.chdir(save_folder)
         FetchVideo(video_uris).run()
 
 
